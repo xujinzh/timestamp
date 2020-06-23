@@ -1,12 +1,13 @@
 from datetime import datetime, timedelta
 
-from utils import new_hex, view_hex, extract_hex, repair_hex, replace_hex, restore_hex
+from utils import new_hex, view_hex, extract_hex, repair_hex, replace_hex, restore_hex, drift_hex
 
 
 def act(ugly_duckling, white_swan, sync_header, sync_footer, second_sync_header, second_sync_footer,
-        moment=datetime.now(), delta=timedelta(microseconds=0)):
+        moment=datetime.now(), delta=timedelta(microseconds=0), drift=True):
     """
     执行时间戳修改
+    :param drift: 使用时间平移
     :param delta: 累加时间差量，时间戳格式
     :param moment: 起点时间
     :param second_sync_footer: 二级标识符尾，十六进制形式
@@ -21,8 +22,11 @@ def act(ugly_duckling, white_swan, sync_header, sync_footer, second_sync_header,
     target_length = extract_hex.find_extract(file_name=ugly_duckling, header=sync_header, footer=sync_footer,
                                              new_file=white_swan)
     repair_hex.add_footer(file_name=white_swan, sync_header=second_sync_footer)
-    replace_hex.find_replace(file_name=white_swan, header=second_sync_header, footer=second_sync_footer, moment=moment,
-                             delta=delta)
+    if drift:
+        drift_hex.find_drift(file_name=white_swan, header=second_sync_header, footer=second_sync_footer, moment=moment)
+    else:
+        replace_hex.find_replace(file_name=white_swan, header=second_sync_header, footer=second_sync_footer,
+                                 moment=moment, delta=delta)
     repair_hex.delete_footer(file_name=white_swan, sync_header=second_sync_footer)
     restore_hex.put_back(parent_sequence=ugly_duckling, sub_sequence=white_swan, targeting_list=target_length[0],
                          length_list=target_length[1])
