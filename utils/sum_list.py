@@ -16,7 +16,7 @@ def cumulative_sum(length_list, first_zero=False):
     return cum_length_list
 
 
-# if __name__ == "__main__":
-#     length_list = [1, 2, 3]
-#     print("不增加 0 : %s " % cumulative_sum(length_list=length_list))
-#     print("增加 0 : %s " % cumulative_sum(length_list=length_list, first_zero=True))
+if __name__ == "__main__":
+    length_list = [1, 2, 3]
+    print("不增加 0 : %s " % cumulative_sum(length_list=length_list))
+    print("增加 0 : %s " % cumulative_sum(length_list=length_list, first_zero=True))

@@ -17,9 +17,9 @@ def create_new(file_name, content):
     return True
 
 
-# if __name__ == "__main__":
-#     wechat_graph = b'eb906767abcd45341495eb90676789005641fdeceb906767741685239562eb906767324501200032eb906767787645650205eb90'
-#     file_name = '../data/wechatgraph.dat'
-#     create_new(file_name=file_name, content=wechat_graph)
-#     wechat_graph_contents = view_hex.look_over(file_name)
-#     print(wechat_graph_contents)
+if __name__ == "__main__":
+    wechat_graph = b'eb906767abcd45341495eb90676789005641fdeceb906767741685239562eb906767324501200032eb906767787645650205eb90'
+    file_name = '../data/wechatgraph.dat'
+    create_new(file_name=file_name, content=wechat_graph)
+    view_hex.look_over(file_name)
+

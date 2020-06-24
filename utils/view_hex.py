@@ -8,11 +8,9 @@ def look_over(file_name):
     :return: 文件的内容
     """
     with open(file_name, "rb") as f:
-        detail = binascii.hexlify(f.read())
-    return detail
+        print(binascii.hexlify(f.read()))
 
 
-# if __name__ == "__main__":
-#     wechat_graph = '../data/wechatgraph.dat'
-#     contents = look_over(file_name=wechat_graph)
-#     print(contents)
+if __name__ == "__main__":
+    wechat_graph = '../data/wechatgraph.dat'
+    look_over(file_name=wechat_graph)
