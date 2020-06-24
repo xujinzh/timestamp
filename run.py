@@ -19,6 +19,7 @@ second_header = b'6767'
 second_footer = b'6767'
 time = datetime.now()
 delta = timedelta(microseconds=888)
+
 packet_correction.act(ugly_duckling=primary_file, white_swan=secondary_file, sync_header=first_header,
                       sync_footer=first_footer, second_sync_header=second_header, second_sync_footer=second_footer,
                       moment=time, delta=delta, drift=True)

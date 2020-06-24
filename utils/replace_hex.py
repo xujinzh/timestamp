@@ -2,7 +2,7 @@ import binascii
 import mmap
 from datetime import datetime, timedelta
 
-from utils import correct_timestamp
+from utils import convert
 
 
 def find_replace(file_name, header, footer, moment=datetime.now(),
@@ -37,12 +37,16 @@ def find_replace(file_name, header, footer, moment=datetime.now(),
             # 注意指针位置以un-hexlify(b'^\xe7\x04'、3位）来计算，而不是以hexlify(b'56ba'，4位)来计算
 
             body = mm.read(footer_index - mm.tell())  # 读从mm.tell()[即，header后]到footer之间的数据，赋值给body
-            second = correct_timestamp.time_hex_sec_subs(moment=moment)  # 计算时间的秒值
 
-            #             mm[(mm.tell() - 6): (mm.tell() - 2)] = second[0]  # 替换 时间秒
-            #             mm[(mm.tell() - 2):mm.tell()] = second[1]  # 替换 时间亚秒
-            mm[header_index + len(header):header_index + len(header) + 4] = second[0]
-            mm[header_index + len(header) + 4:header_index + len(header) + 6] = second[1]
+            # use correct_timestamp.time_hex_sec_subs
+            # second = correct_timestamp.time_hex_sec_subs(moment=moment)  # 计算时间的秒值
+            # mm[header_index + len(header):header_index + len(header) + 4] = second[0]
+            # mm[header_index + len(header) + 4:header_index + len(header) + 6] = second[1]
+
+            # use convert.timestamp_to_hex
+            moment_timestamp = moment.timestamp()
+            moment_hex = binascii.unhexlify(convert.timestamp_to_hex(moment_timestamp))
+            mm[header_index + len(header):header_index + len(header) + 6] = moment_hex
 
             # while body is not None:
             while len(binascii.hexlify(body)) > 6:  # 因为要修改时间戳(4B+2B=6B），所以最少要6位
@@ -54,12 +58,18 @@ def find_replace(file_name, header, footer, moment=datetime.now(),
                     # print("Found header at %s and footer at %s" % (header_index, footer_index))  # 打印header\footer位置
                     mm.seek(header_index + len(header))  # 将指针指向找到的header后位置，此时，mm.tell()指向找到的header后
                     body = mm.read(footer_index - mm.tell())  # 将header和footer之间的内容赋值给body
-                    delta = delta + delta
-                    second = correct_timestamp.time_hex_sec_subs(moment=moment, delta=delta)  # 计算累加后时间的秒值
-                    #                     mm[(mm.tell() - 6): mm.tell() - 2] = second[0]  # 替换 时间秒
-                    #                     mm[mm.tell() - 2:mm.tell()] = second[1]  # 替换 时间亚秒
-                    mm[header_index + len(header):header_index + len(header) + 4] = second[0]
-                    mm[header_index + len(header) + 4:header_index + len(header) + 6] = second[1]
+                    delta += delta
+
+                    # use correct_timestamp.time_hex_sec_subs
+                    # second = correct_timestamp.time_hex_sec_subs(moment=moment, delta=delta)  # 计算累加后时间的秒值
+                    # mm[header_index + len(header):header_index + len(header) + 4] = second[0]
+                    # mm[header_index + len(header) + 4:header_index + len(header) + 6] = second[1]
+
+                    # use convert.timestamp_to_hex
+                    moment += delta
+                    moment_timestamp = moment.timestamp()
+                    moment_hex = binascii.unhexlify(convert.timestamp_to_hex(moment_timestamp))
+                    mm[header_index + len(header):header_index + len(header) + 6] = moment_hex
                 else:  # 如果没有找到，则赋值给body为"00"，即，结束循环
                     body = binascii.unhexlify("00")  # 把"00"按照非十六进制的形式赋值给body
         mm.close()  # 关闭内存映射
