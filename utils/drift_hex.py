@@ -39,12 +39,12 @@ def find_drift(file_name, header, footer, moment=datetime.now()):
             moment_timestamp = moment.timestamp()
             delta_drift = moment_timestamp - body_timestamp
 
-            second = correct_timestamp.time_hex_sec_subs(moment=moment)  # 计算时间的秒值
+            # second = correct_timestamp.time_hex_sec_subs(moment=moment)  # 计算时间的秒值
+            # mm[header_index + len(header):header_index + len(header) + 4] = second[0]
+            # mm[header_index + len(header) + 4:header_index + len(header) + 6] = second[1]
 
-            #             mm[(mm.tell() - 6): (mm.tell() - 2)] = second[0]  # 替换 时间秒
-            #             mm[(mm.tell() - 2):mm.tell()] = second[1]  # 替换 时间亚秒
-            mm[header_index + len(header):header_index + len(header) + 4] = second[0]
-            mm[header_index + len(header) + 4:header_index + len(header) + 6] = second[1]
+            moment_hex = binascii.unhexlify(convert.timestamp_to_hex(moment_timestamp))
+            mm[header_index + len(header):header_index + len(header) + 6] = moment_hex
 
             # while body is not None:
             while len(binascii.hexlify(body)) > 6:  # 因为要修改时间戳(4B+2B=6B），所以最少要6位
@@ -58,12 +58,13 @@ def find_drift(file_name, header, footer, moment=datetime.now()):
                     body = mm.read(footer_index - mm.tell())  # 将header和footer之间的内容赋值给body
                     body_timestamp = convert.hex_to_timestamp(binascii.hexlify(body))
                     moment_timestamp = body_timestamp + delta_drift
-                    moment = datetime.fromtimestamp(moment_timestamp)
-                    second = correct_timestamp.time_hex_sec_subs(moment=moment)  # 计算累加后时间的秒值
-                    #                     mm[(mm.tell() - 6): mm.tell() - 2] = second[0]  # 替换 时间秒
-                    #                     mm[mm.tell() - 2:mm.tell()] = second[1]  # 替换 时间亚秒
-                    mm[header_index + len(header):header_index + len(header) + 4] = second[0]
-                    mm[header_index + len(header) + 4:header_index + len(header) + 6] = second[1]
+                    # moment = datetime.fromtimestamp(moment_timestamp)
+                    # second = correct_timestamp.time_hex_sec_subs(moment=moment)  # 计算累加后时间的秒值
+                    # mm[header_index + len(header):header_index + len(header) + 4] = second[0]
+                    # mm[header_index + len(header) + 4:header_index + len(header) + 6] = second[1]
+
+                    moment_hex = binascii.unhexlify(convert.timestamp_to_hex(moment_timestamp))
+                    mm[header_index + len(header):header_index + len(header) + 6] = moment_hex
                 else:  # 如果没有找到，则赋值给body为"00"，即，结束循环
                     body = binascii.unhexlify("00")  # 把"00"按照非十六进制的形式赋值给body
         mm.close()  # 关闭内存映射

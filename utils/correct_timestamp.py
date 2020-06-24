@@ -38,6 +38,7 @@ def time_hex_sec_subs(moment=None,
         two_byte_sub_second = two_byte_sub_second[:2] + '0' + two_byte_sub_second[2:]
     else:  # 显示两个字节，则直接返回
         two_byte_sub_second = two_byte_sub_second
+
     if four_byte_second[:1] == '-':  # 出现'-0x76892342'，这是由于时间戳递减导致的
         four_byte_second = four_byte_second[1:]
     if two_byte_sub_second[:1] == '-':
