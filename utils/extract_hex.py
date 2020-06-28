@@ -18,6 +18,7 @@ def find_extract(file_name, header, footer, new_file):
 
     targeting = []  # 记录提取的二进制字符串的位置，以二进制字符串头为准
     length = []  # 记录提取的二进制字符串的长度，与targeting一一对应，即 len(targeting) == len(length)
+    content_list = []  # 以列表的形式记录提取的内容，二进制字符串格式
 
     with open(file_name, "rb") as f:  # 以只读方式打开二进制文件
         #     print("Data: %s" % binascii.hexlify(f.read()))
@@ -37,7 +38,7 @@ def find_extract(file_name, header, footer, new_file):
             targeting.append(mm.tell())  # targeting 中记录的是截取二进制字符串的开始位置
             # 从mm.tell()开始读footer_index-mm.tell()个二进制字符串。
             body = mm.read(footer_index - mm.tell())  # 读从mm.tell()[即，header后]到footer之间的数据，赋值给body
-
+            content_list.append(body)
             # 先清空待写入文件里的内容
             with open(new_file, "w+b") as nf:
                 nf.truncate()
@@ -59,7 +60,7 @@ def find_extract(file_name, header, footer, new_file):
                     targeting.append(mm.tell())  # 记录找到的二进制字符串的位置
 
                     body = mm.read(footer_index - mm.tell())  # 将header和footer之间的内容赋值给body
-
+                    content_list.append(body)
                     # 将找到的内容追加写到文件中
                     with open(new_file, "a+b") as nf:
                         nf.write(body)
@@ -70,7 +71,7 @@ def find_extract(file_name, header, footer, new_file):
                     body = None  # 把 None 赋值给body
         mm.close()  # 关闭内存映射
 
-    return targeting, length
+    return targeting, length, content_list
 
 
 if __name__ == '__main__':
@@ -86,3 +87,6 @@ if __name__ == '__main__':
 
     view_hex.look_over(wechat_file)
     view_hex.look_over(new_file)
+    print("content: %s" % target_length[2])
+    for content in target_length[2]:
+        print(binascii.hexlify(content))

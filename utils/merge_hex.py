@@ -1,7 +1,7 @@
 import binascii
 import mmap
 
-from utils import new_hex, view_hex, repair_hex
+from utils import new_hex, view_hex, repair_hex, statistics
 
 
 def converge(odd_file, even_file, intact_file, sync_header_odd, sync_footer_odd, sync_header_even, sync_footer_even):
@@ -38,7 +38,7 @@ def converge(odd_file, even_file, intact_file, sync_header_odd, sync_footer_odd,
                     mm_odd.seek(header_index_odd)  # 指针指向当前 header_odd 的头位置
                     # 读取 header_odd 头到 footer_odd 头之间的内容，赋值给body_odd
                     body_odd = mm_odd.read(footer_index_odd - mm_odd.tell())
-                    content_odd.append(body_odd)   # 将 body_odd 追加到列表 content_odd 的末尾
+                    content_odd.append(body_odd)  # 将 body_odd 追加到列表 content_odd 的末尾
                 else:  # 如果没有找到则结束循环
                     body_odd = None
 
@@ -76,7 +76,7 @@ def converge(odd_file, even_file, intact_file, sync_header_odd, sync_footer_odd,
     contents = binascii.hexlify(contents)
     new_hex.create_new(file_name=intact_file, content=contents)
 
-    return True
+    return content_odd
 
 
 if __name__ == "__main__":
@@ -100,8 +100,9 @@ if __name__ == "__main__":
     repair_hex.add_footer(file_name=odd_file, sync_header=footer_odd)
     repair_hex.add_footer(file_name=even_file, sync_header=footer_even)
 
-    converge(odd_file=odd_file, even_file=even_file, intact_file=intact_file, sync_header_odd=header_odd,
-             sync_footer_odd=footer_odd, sync_header_even=header_even, sync_footer_even=footer_even)
+    content_list = converge(odd_file=odd_file, even_file=even_file, intact_file=intact_file,
+                            sync_header_odd=header_odd, sync_footer_odd=footer_odd, sync_header_even=header_even,
+                            sync_footer_even=footer_even)
     print("intact file: ")
     view_hex.look_over(file_name=intact_file)
 
@@ -111,3 +112,6 @@ if __name__ == "__main__":
     view_hex.look_over(file_name=odd_file)
     print("even file: ")
     view_hex.look_over(file_name=even_file)
+
+    d = statistics.count(content_list=content_list, identifier_list=[b'0832', b'ab', b'dc'], sync_header=b'eb90')
+    print(d)
