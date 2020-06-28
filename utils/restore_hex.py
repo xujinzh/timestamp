@@ -21,7 +21,7 @@ def put_back(parent_sequence, sub_sequence, target_list, length_list):
 
         with open(sub_sequence, "rb") as sf:  # 以只读模式打开
             print("Length of Sub-Sequence: %s " % len(binascii.hexlify(sf.read())))  # 打印文件总长度，以十六进制长度表示
-            mms = mmap.mmap(sf.fileno(), 0, prot=mmap.PROT_READ)  # 以只读模式映射到地址空间
+            mms = mmap.mmap(sf.fileno(), 0, access=mmap.PROT_READ)  # 以只读模式映射到地址空间
 
             for i in range(len(target_list)):  # 把子序列的内容按照标记列表和长度列表放回母序列相应位置
                 mmp[target_list[i]:(target_list[i] + length_list[i])] = mms[cum_length_list[i]:cum_length_list[i + 1]]

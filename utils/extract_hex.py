@@ -23,7 +23,7 @@ def find_extract(file_name, header, footer, new_file):
     with open(file_name, "rb") as f:  # 以只读方式打开二进制文件
         #     print("Data: %s" % binascii.hexlify(f.read()))
         print("文件总长度(以十六进制字符串长度显示）: %s " % len(binascii.hexlify(f.read())))  # 打印文件总长度，以十六进制长度表示
-        mm = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ)  # 映射文件的所有内容
+        mm = mmap.mmap(f.fileno(), 0, access=mmap.PROT_READ)  # 映射文件的所有内容
         current_offset = 0  # 开始指针位置为0
         header_index = mm.find(header, current_offset)  # 从current_offset开始向后寻找header
         footer_index = mm.find(footer, current_offset + len(header))  # 从current_offset+len(header)开始向后寻找footer

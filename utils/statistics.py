@@ -16,7 +16,7 @@ def count(content_list, identifier_list, sync_header):
     for identifier in identifier_list:
         coun = 0
         for content in content_list:
-            position = binascii.hexlify(content).find(identifier, len(sync_header) - 1, 20)
+            position = binascii.hexlify(content).find(identifier, len(sync_header) - 1, 32)
             if position != -1:
                 coun += 1
         stat_iden[identifier] = coun
