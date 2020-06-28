@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b0cad3ed-bf07-46ca-9ed6-01c5b38cd310" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/statistics.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/statistics.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +30,7 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../function" />
   </component>
   <component name="RunManager" selected="Python.merge_hex">
     <configuration name="extract_hex" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -167,26 +166,26 @@
       <screen x="67" y="27" width="1533" height="873" />
     </state>
     <state x="566" y="211" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/67.27.1533.873@67.27.1533.873" timestamp="1592885724389" />
-    <state x="616" y="220" width="424" height="484" key="FileChooserDialogImpl" timestamp="1592557963784">
+    <state x="616" y="220" width="424" height="484" key="FileChooserDialogImpl" timestamp="1593319999934">
       <screen x="67" y="27" width="1533" height="873" />
     </state>
-    <state x="616" y="220" width="424" height="484" key="FileChooserDialogImpl/67.27.1533.873@67.27.1533.873" timestamp="1592557963784" />
-    <state width="1510" height="273" key="GridCell.Tab.0.bottom" timestamp="1593314394278">
+    <state x="616" y="220" width="424" height="484" key="FileChooserDialogImpl/67.27.1533.873@67.27.1533.873" timestamp="1593319999934" />
+    <state width="1510" height="273" key="GridCell.Tab.0.bottom" timestamp="1593319560807">
       <screen x="67" y="27" width="1533" height="873" />
     </state>
-    <state width="1510" height="273" key="GridCell.Tab.0.bottom/67.27.1533.873@67.27.1533.873" timestamp="1593314394278" />
-    <state width="1510" height="273" key="GridCell.Tab.0.center" timestamp="1593314394278">
+    <state width="1510" height="273" key="GridCell.Tab.0.bottom/67.27.1533.873@67.27.1533.873" timestamp="1593319560807" />
+    <state width="1510" height="273" key="GridCell.Tab.0.center" timestamp="1593319560807">
       <screen x="67" y="27" width="1533" height="873" />
     </state>
-    <state width="1510" height="273" key="GridCell.Tab.0.center/67.27.1533.873@67.27.1533.873" timestamp="1593314394278" />
-    <state width="1510" height="273" key="GridCell.Tab.0.left" timestamp="1593314394277">
+    <state width="1510" height="273" key="GridCell.Tab.0.center/67.27.1533.873@67.27.1533.873" timestamp="1593319560807" />
+    <state width="1510" height="273" key="GridCell.Tab.0.left" timestamp="1593319560806">
       <screen x="67" y="27" width="1533" height="873" />
     </state>
-    <state width="1510" height="273" key="GridCell.Tab.0.left/67.27.1533.873@67.27.1533.873" timestamp="1593314394277" />
-    <state width="1510" height="273" key="GridCell.Tab.0.right" timestamp="1593314394278">
+    <state width="1510" height="273" key="GridCell.Tab.0.left/67.27.1533.873@67.27.1533.873" timestamp="1593319560806" />
+    <state width="1510" height="273" key="GridCell.Tab.0.right" timestamp="1593319560807">
       <screen x="67" y="27" width="1533" height="873" />
     </state>
-    <state width="1510" height="273" key="GridCell.Tab.0.right/67.27.1533.873@67.27.1533.873" timestamp="1593314394278" />
+    <state width="1510" height="273" key="GridCell.Tab.0.right/67.27.1533.873@67.27.1533.873" timestamp="1593319560807" />
     <state width="1510" height="272" key="GridCell.Tab.1.bottom" timestamp="1593310251030">
       <screen x="67" y="27" width="1533" height="873" />
     </state>

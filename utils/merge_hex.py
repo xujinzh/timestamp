@@ -79,6 +79,7 @@ def converge(odd_file, even_file, intact_file, sync_header_odd, sync_footer_odd,
     return content_odd
 
 
+
 if __name__ == "__main__":
     content_odd = b'eb90abcd1234eb9083293243acdfeb9098003235'
     content_even = b'ff77dcba4321ff7720280088ff772839001feeac'
