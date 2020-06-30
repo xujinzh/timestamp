@@ -2,6 +2,7 @@ import binascii
 import mmap
 
 from utils import new_hex, view_hex, repair_hex, statistics
+import json
 
 
 def converge(odd_file, even_file, intact_file, sync_header_odd, sync_footer_odd, sync_header_even, sync_footer_even):
@@ -20,7 +21,7 @@ def converge(odd_file, even_file, intact_file, sync_header_odd, sync_footer_odd,
     footer_odd = binascii.unhexlify(sync_footer_odd)  # 将默认的十六进制字符串的标识符搜索尾，先转化为二进制字符串形式
     content_odd = []  # 存储分割后的二进制文件到列表中，依次存放
     with open(odd_file, 'rb') as of:  # 以只读模式打开
-        mm_odd = mmap.mmap(of.fileno(), 0, access=mmap.PROT_READ)  # 将文件的内容赋值给mm_odd
+        mm_odd = mmap.mmap(of.fileno(), 0, access=mmap.ACCESS_READ)  # 将文件的内容赋值给mm_odd
         current_offset_odd = 0  # 当前指针指向文件开头
         header_index_odd = mm_odd.find(header_odd, current_offset_odd)  # 从开头寻找header_odd
         footer_index_odd = mm_odd.find(footer_odd, current_offset_odd + len(header_odd))  # 从header-odd后寻找footer_odd
@@ -48,7 +49,7 @@ def converge(odd_file, even_file, intact_file, sync_header_odd, sync_footer_odd,
     footer_even = binascii.unhexlify(sync_footer_even)  # 将默认的十六进制字符串的标识符搜索尾，先转化为二进制字符串形式
     content_even = []
     with open(even_file, 'rb') as ef:
-        mm_even = mmap.mmap(ef.fileno(), 0, access=mmap.PROT_READ)
+        mm_even = mmap.mmap(ef.fileno(), 0, access=mmap.ACCESS_READ)
         current_offset_even = 0
         header_index_even = mm_even.find(header_even, current_offset_even)
         footer_index_even = mm_even.find(footer_even, current_offset_even + len(header_even))
@@ -116,3 +117,6 @@ if __name__ == "__main__":
 
     d = statistics.count(content_list=content_list, identifier_list=[b'0832', b'ab', b'dc'], sync_header=b'eb90')
     print(d)
+
+    with open('../data/result.json', 'a+') as f:
+        json.dump(str(d), fp=f)
